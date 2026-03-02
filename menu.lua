@@ -1,4 +1,3 @@
-
 local Menu = {}
 
 local button_height = 64
@@ -7,12 +6,7 @@ local buttons = {}
 local font = nil
 
 local function newBtn(text, fn)
-    return {
-        text = text,
-        fn = fn,
-        now = false,
-        last = false
-    }
+    return { text = text, fn = fn, now = false, last = false }
 end
 
 function Menu.load()
@@ -24,6 +18,7 @@ function Menu.load()
        gameState.play = true
        gameState.menu = false
        gameState.gameOver = false
+       Game.start() -- Tell the game module to start playing!
     end))
 
     table.insert(buttons, newBtn("Settings", function()
@@ -37,7 +32,6 @@ end
 
 function Menu.update(dt)
     local mx, my = love.mouse.getPosition()
-
     local margin = 16
     local total_height = (button_height + margin) * #buttons
     local button_width = screen.w * (1/3)
@@ -47,7 +41,6 @@ function Menu.update(dt)
         button.now = love.mouse.isDown(1)
 
         local cursor_y = (i - 1) * (button_height + margin)
-
         local bx = (screen.w * 0.5) - (button_width * 0.5)
         local by = (screen.h * 0.5) - (total_height * 0.5) + cursor_y
 
@@ -69,20 +62,16 @@ function Menu.draw()
     for i, button in ipairs(buttons) do
         local bx = (screen.w * 0.5) - (button_width * 0.5)
         local by = (screen.h * 0.5) - (total_height * 0.5) + cursor_y
-
         local color = {0.4, 0.4, 0.5, 1.0}
-
         local mx, my = love.mouse.getPosition()
+        
         local hover = mx > bx and mx < bx + button_width and
                       my > by and my < by + button_height
 
-        if hover then
-            color = {0.8, 0.8, 0.9, 1.0}
-        end
+        if hover then color = {0.8, 0.8, 0.9, 1.0} end
 
         love.graphics.setColor(color)
         love.graphics.rectangle("fill", bx, by, button_width, button_height)
-
         love.graphics.setColor(0, 0, 0, 1)
 
         local tw = font:getWidth(button.text)
@@ -94,6 +83,7 @@ function Menu.draw()
 
         cursor_y = cursor_y + (button_height + margin)
     end
+    love.graphics.setColor(1, 1, 1, 1) 
 end
 
 return Menu
