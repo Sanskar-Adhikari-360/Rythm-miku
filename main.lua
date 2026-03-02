@@ -1,6 +1,7 @@
   notes = {}
   spawnTimer = 0
-  spawnInterval = 1
+  BPM = 120
+  secondsPerBeat = 60 / BPM
 
     hitText = ""
     score = 0
@@ -12,6 +13,7 @@
   lanes = {100, 200, 300, 400}
 
   function spawnNote(x)
+    local speed = (hitLine.y + 20) / secondsPerBeat
     table.insert(notes,{x = x, y= -20, speed = 200})    
   end
 
@@ -34,7 +36,8 @@ function love.load()
     player.anim = player.animations.idle
 
     
-  
+    song = love.audio.newSource("music/mikumiku.mp3","stream")
+    love.audio.play(song)
 end
 
 function love.update(dt)
@@ -53,6 +56,16 @@ function love.update(dt)
 
     player.anim:update(dt)
 
+    local songTime = song:tell()
+    local beatNumber = math.floor(songTime / secondsPerBeat) + 1
+
+    if not spawnedBeats then spawnedBeats = {} end
+    if not spawnedBeats[beatNumber] then
+         local laneIndex = lanes[math.random(1, #lanes)]
+        spawnNote(laneIndex)
+        spawnedBeats[beatNumber] = true
+    end
+
     for i = #notes, 1, -1 do
     local note = notes[i]
     note.y = note.y + note.speed * dt
@@ -64,12 +77,6 @@ function love.update(dt)
     end
 
     spawnTimer = spawnTimer + dt
-
-    if spawnTimer >= spawnInterval then
-        local lane = lanes[math.random(1, #lanes)]
-        spawnNote(lane)
-        spawnTimer = 0
-    end
 
 
 function love.keypressed(key)
@@ -88,7 +95,7 @@ function love.keypressed(key)
                             score = score + 10
                         elseif math.abs(note.y - hitLine.y) <= 50 then
                             hitText = "GOOD"
-                            score = score +kj 5
+                            score = score + 5
                         end
                         table.remove(notes, j)
                         return
