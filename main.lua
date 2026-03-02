@@ -83,12 +83,12 @@ function love.keypressed(key)
 
                 if note.x == laneX then
                     if math.abs(note.y - hitLine.y) <= hitLine.radius then
-                        if math.abs(note.y - hitLine.y) <= 50 then
-                            hitText = "GOOD"
-                            score = score + 5
-                        elseif math.abs(note.y - hitLine.y) <= 25 then
+                        if math.abs(note.y - hitLine.y) <= 25 then
                             hitText = "PERFECT!!"
                             score = score + 10
+                        elseif math.abs(note.y - hitLine.y) <= 50 then
+                            hitText = "GOOD"
+                            score = score +kj 5
                         end
                         table.remove(notes, j)
                         return
