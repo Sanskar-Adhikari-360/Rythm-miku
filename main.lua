@@ -1,17 +1,10 @@
-  notes = {}
-  spawnTimer = 0
-  BPM = 120
-  secondsPerBeat = 60 / BPM
+  gameState={}
+  gameState.menu = true
+  gameState.play = false
+  gameState.gameOver = false
 
-    hitText = ""
-    score = 0
-
-  hitLine = {}
-  hitLine.y = 500
-  hitLine.radius = 50
-
-  lanes = {100, 200, 300, 400}
-
+  
+  
   function spawnNote(x)
     local speed = (hitLine.y + 20) / secondsPerBeat
     table.insert(notes,{x = x, y= -20, speed = 200})    
@@ -21,6 +14,21 @@
 function love.load()
     anim8 = require 'lib/anim8'
     love.graphics.setDefaultFilter("nearest","nearest")
+    if gameState.play == true then
+    notes = {}
+    spawnTimer = 0
+    BPM = 120
+    secondsPerBeat = 60 / BPM
+
+    hitText = ""
+    score = 0
+
+    hitLine = {}
+    hitLine.y = 500
+    hitLine.radius = 50
+
+    lanes = {100, 200, 300, 400}
+
 
     player = {}
     player.x = 0 
@@ -38,24 +46,15 @@ function love.load()
     
     song = love.audio.newSource("music/mikumiku.mp3","stream")
     love.audio.play(song)
+    end
 end
 
 function love.update(dt)
-    -- if love.keyboard.isDown("d") then
-    -- player.x = player.x + player.speed    
-    -- end
-    -- if love.keyboard.isDown("a") then
-    -- player.x = player.x - player.speed
-    -- end
-    -- if love.keyboard.isDown("w") then
-    -- player.y = player.y - player.speed
-    -- end
-    -- if love.keyboard.isDown("s") then
-    -- player.y = player.y + player.speed
-    -- end
 
+
+    
+    if gameState.play == true then
     player.anim:update(dt)
-
     local songTime = song:tell()
     local beatNumber = math.floor(songTime / secondsPerBeat) + 1
 
@@ -108,11 +107,13 @@ function love.keypressed(key)
         end
     end
 end
-
+end
 end   
 
 
 function love.draw()
+
+    if gameState.play == true then
    player.anim:draw(player.spriteSheet, 750, player.y, nil, nil)
 
        for _, note in pairs(notes) do
@@ -129,7 +130,7 @@ if score ~= "" then
     love.graphics.print("Score: "..score)
 end
 
-
+end
 
 local mouseX, mouseY = love.mouse.getPosition()
 
