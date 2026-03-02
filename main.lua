@@ -1,6 +1,7 @@
+ Menu = require("menu")
   gameState={}
   gameState.menu = true
-  gameState.play = false
+  gameState.play = false        
   gameState.gameOver = false
 
   
@@ -12,9 +13,15 @@
 
 
 function love.load()
-    anim8 = require 'lib/anim8'
+    
     love.graphics.setDefaultFilter("nearest","nearest")
-    if gameState.play == true then
+
+    -- if gameState.menu and not gameState.play and not gameState.gameOver then
+    --     Menu.load()
+    -- end
+    Menu.load()
+    if gameState.play and not gameState.menu and not gameState.gameOver then
+    anim8 = require 'lib/anim8'
     notes = {}
     spawnTimer = 0
     BPM = 120
@@ -51,10 +58,12 @@ end
 
 function love.update(dt)
 
-
-    
-    if gameState.play == true then
-    player.anim:update(dt)
+    -- if gameState.menu and not gameState.play and not gameState.gameOver then
+    --     Menu.update(dt)
+    -- end
+    Menu.update(dt)
+    if gameState.play and not gameState.menu and not gameState.gameOver then
+    -- player.anim:update(dt)
     local songTime = song:tell()
     local beatNumber = math.floor(songTime / secondsPerBeat) + 1
 
@@ -76,6 +85,7 @@ function love.update(dt)
     end
 
     spawnTimer = spawnTimer + dt
+end
 
 
 function love.keypressed(key)
@@ -108,12 +118,16 @@ function love.keypressed(key)
     end
 end
 end
-end   
+   
 
 
 function love.draw()
 
-    if gameState.play == true then
+    -- if gameState.menu and not gameState.play and not gameState.gameOver then
+    --     Menu.draw()
+    -- end
+    Menu.draw()
+    if gameState.play and not gameState.menu and not gameState.gameOver then
    player.anim:draw(player.spriteSheet, 750, player.y, nil, nil)
 
        for _, note in pairs(notes) do
