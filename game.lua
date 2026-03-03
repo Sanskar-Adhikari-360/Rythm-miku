@@ -1,4 +1,13 @@
 local Game = {}
+local combo = {}
+combo.perfect = 0
+combo.good = 0
+combo.text = ""
+-- 625 175
+
+screen = {}
+screen.h = love.graphics.getHeight()
+screen.w = love.graphics.getWidth()
 
 function Game.spawnNote(x)
     local speed = (hitLine.y + 20) / secondsPerBeat
@@ -59,7 +68,15 @@ function Game.update(dt)
         local note = notes[i]
         note.y = note.y + note.speed * dt
 
-        if note.y > love.graphics.getHeight() then
+        if note.y > (hitLine.y + hitLine.radius) then
+            hitText = "MISS"
+            score = score - 1
+            combo.perfect = 0
+            combo.good = 0
+            combo.text = ""
+            table.remove(notes,i)
+
+        elseif note.y > love.graphics.getHeight() then
             table.remove(notes, i)
         end
     end
@@ -79,9 +96,19 @@ function Game.keypressed(key)
                     if math.abs(note.y - hitLine.y) <= hitLine.radius then
                         if math.abs(note.y - hitLine.y) <= 25 then
                             hitText = "PERFECT!!"
+                            combo.good = 0
+                            combo.perfect = combo.perfect + 1
+                            if combo.perfect > 1 then
+                            combo.text = "Perfect combo: x".. combo.perfect
+                            end
                             score = score + 10
                         elseif math.abs(note.y - hitLine.y) <= 50 then
                             hitText = "GOOD"
+                            combo.perfect = 0
+                            combo.good = combo.good + 1
+                            if combo.good > 1 then
+                            combo.text = "Good combo: x".. combo.good
+                            end
                             score = score + 5
                         end
                         table.remove(notes, j)
@@ -89,6 +116,9 @@ function Game.keypressed(key)
                     end
                 end
             end
+            combo.perfect = 0
+            combo.good = 0
+            combo.text = ""
             hitText = "MISS"
             score = score - 3
         end
@@ -110,6 +140,10 @@ function Game.draw()
 
     if score ~= "" then
         love.graphics.print("Score: "..score, 10, 30)
+    end
+
+    if combo ~= "" then
+        love.graphics.print(combo.text, 625, 175)
     end
 
     local mouseX, mouseY = love.mouse.getPosition()
