@@ -15,6 +15,13 @@ screen = {}
 screen.h = love.graphics.getHeight()
 screen.w = love.graphics.getWidth()
 
+local Wiggle = require("wiggle")
+
+local game = {}
+
+local lanePositions = {}
+local laneWiggles = {}
+
 function Game.spawnNote(x)
     local speed = (hitLine.y + 20) / secondsPerBeat
     table.insert(notes, {x = x, y= -20, speed = 200})    
@@ -34,6 +41,12 @@ function Game.load()
     player.anim = player.animations.idle
     
     song = love.audio.newSource("music/mikumiku.mp3","stream")
+
+laneWiggles = {}
+
+for i = 1, 4 do
+    laneWiggles[i] = Wiggle.new(100 * i + 10, 0, love.graphics.getHeight(), 40)
+end
 end
 
 
@@ -49,7 +62,7 @@ function Game.start()
     hitLine = {}
     hitLine.y = 500
     hitLine.radius = 50
-    lanes = {100, 200, 300, 400}
+    lanePositions = {100, 200, 300, 400}
 
     player.x = 0 
     player.y = 0
@@ -65,7 +78,7 @@ function Game.update(dt)
     local beatNumber = math.floor(songTime / secondsPerBeat) + 1
 
     if not spawnedBeats[beatNumber] then
-        local laneIndex = lanes[math.random(1, #lanes)]
+        local laneIndex = lanePositions[math.random(1, #lanePositions)]
         Game.spawnNote(laneIndex)
         spawnedBeats[beatNumber] = true
     end
@@ -93,13 +106,17 @@ function Game.update(dt)
     gameState.menu = false
     gameState.gameOver = true
     gameState.play = false
+    song:pause()
     end
+for i = 1, #laneWiggles do
+    laneWiggles[i]:update(dt)
+end
 end
 
 function Game.keypressed(key)
     local laneKeys = { "d", "f", "j", "k" }
 
-    for i, laneX in ipairs(lanes) do
+    for i, laneX in ipairs(lanePositions) do
         if key == laneKeys[i] then
             for j = #notes, 1, -1 do
                 local note = notes[j]
@@ -108,6 +125,7 @@ function Game.keypressed(key)
                     if math.abs(note.y - hitLine.y) <= hitLine.radius then
                         if math.abs(note.y - hitLine.y) <= 25 then
                             hitText = "PERFECT!!"
+                            laneWiggles[i]:pluck(35) -- perfect
                             combo.good = 0
                             combo.perfect = combo.perfect + 1
                             if combo.perfect > 1 then
@@ -116,6 +134,7 @@ function Game.keypressed(key)
                             score = score + 10
                         elseif math.abs(note.y - hitLine.y) <= 50 then
                             hitText = "GOOD"
+                            laneWiggles[i]:pluck(20) -- good    
                             combo.perfect = 0
                             combo.good = combo.good + 1
                             if combo.good > 1 then
@@ -132,6 +151,7 @@ function Game.keypressed(key)
             combo.good = 0
             combo.text = ""
             hitText = "MISS"
+            laneWiggles[i]:pluck(10) -- miss :<
             score = score - 3
         end
     end
@@ -145,6 +165,10 @@ function Game.draw()
     end
 
     love.graphics.rectangle("fill", 0, hitLine.y, love.graphics.getWidth(), 5)
+
+ for i = 1, #laneWiggles do
+    laneWiggles[i]:draw()
+end
 
     if hitText ~= "" then
         love.graphics.print(hitText, 10, 575)
