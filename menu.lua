@@ -18,7 +18,7 @@ function Menu.load()
        gameState.play = true
        gameState.menu = false
        gameState.gameOver = false
-       Game.start() -- Tell the game module to start playing!
+       Game.start()
     end))
 
     table.insert(buttons, newBtn("Settings", function()
@@ -71,6 +71,7 @@ function Menu.draw()
         if hover then color = {0.8, 0.8, 0.9, 1.0} end
 
         love.graphics.setColor(color)
+        -- love.graphics.setColor(0, 0.8, 0.8) miku teal color
         love.graphics.rectangle("fill", bx, by, button_width, button_height)
         love.graphics.setColor(0, 0, 0, 1)
 

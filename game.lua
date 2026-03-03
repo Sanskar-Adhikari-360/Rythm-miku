@@ -5,6 +5,12 @@ combo.good = 0
 combo.text = ""
 -- 625 175
 
+stats = {}
+stats.good = 0
+stats.perfect = 0
+stats.miss = 0
+stats.score = 0 -- later put just score
+
 screen = {}
 screen.h = love.graphics.getHeight()
 screen.w = love.graphics.getWidth()
@@ -82,6 +88,12 @@ function Game.update(dt)
     end
 
     spawnTimer = spawnTimer + dt
+
+    if score < 0 then
+    gameState.menu = false
+    gameState.gameOver = true
+    gameState.play = false
+    end
 end
 
 function Game.keypressed(key)
@@ -151,4 +163,4 @@ function Game.draw()
     love.graphics.print("Mouse X: "..mouseX.."  Y: "..mouseY, 10, 10)
 end
 
-return Game
+return Game, stats

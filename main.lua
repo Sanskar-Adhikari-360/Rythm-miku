@@ -1,15 +1,17 @@
 Menu = require "menu"
 Game = require "game"
+gameOver = require "gameOver"
 
 gameState = {
-    menu = true,  
+    menu = false,  
     play = false,
-    gameOver = false
+    gameOver = true
 }
 
 function love.load()
     Menu.load()
-    Game.load() 
+    Game.load()
+    gameOver.load()
 end
 
 function love.update(dt)
@@ -17,6 +19,8 @@ function love.update(dt)
         Menu.update(dt)
     elseif gameState.play then
         Game.update(dt)
+    elseif gameState.gameOver then
+        gameOver.update(dt)
     end
 end
 
@@ -25,6 +29,8 @@ function love.draw()
         Menu.draw()
     elseif gameState.play then
         Game.draw()
+    elseif gameState.gameOver then
+        gameOver.draw()
     end
 end
 
