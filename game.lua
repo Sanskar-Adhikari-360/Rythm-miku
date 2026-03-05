@@ -16,6 +16,7 @@ screen.h = love.graphics.getHeight()
 screen.w = love.graphics.getWidth()
 
 local Wiggle = require("wiggle")
+gameEnd = require("gameEnd")
 
 local game = {}
 
@@ -68,7 +69,7 @@ function Game.start()
     player.y = 0
     player.speed = 3
     
-    song:seek(0) 
+    song:seek(216) 
     song:play()
 end
 
@@ -111,6 +112,10 @@ function Game.update(dt)
 for i = 1, #laneWiggles do
     laneWiggles[i]:update(dt)
 end
+
+    if song:tell() == 0 then
+        gameState.gameEnd = true
+    end
 end
 
 function Game.keypressed(key)

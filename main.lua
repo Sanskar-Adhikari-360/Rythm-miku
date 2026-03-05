@@ -7,7 +7,8 @@ gameState = {
     menu = true,  
     play = false,
     gameOver = false,
-    paused = false
+    paused = false,
+    gameEnd = false
 }
 
 function love.load()
@@ -15,6 +16,7 @@ function love.load()
     Game.load()
     gameOver.load()
     paused.load()
+    gameEnd.load()
 end
 
 function love.update(dt)
@@ -23,6 +25,8 @@ function love.update(dt)
     elseif gameState.play then
         if gameState.paused then
             paused.update(dt)
+        elseif gameState.gameEnd then
+            gameEnd.update(dt)
         else
             Game.update(dt)
         end
@@ -38,6 +42,8 @@ function love.draw()
         Game.draw()
         if gameState.paused then
             paused.draw()
+        elseif gameState.gameEnd then
+            gameEnd.draw()
         end
     elseif gameState.gameOver then
         gameOver.draw()
