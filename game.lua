@@ -5,11 +5,6 @@ combo.good = 0
 combo.text = ""
 -- 625 175
 
-stats = {}
-stats.good = 0
-stats.perfect = 0
-stats.miss = 0
-stats.score = 0 -- later put just score
 
 screen = {}
 screen.h = love.graphics.getHeight()
@@ -59,6 +54,13 @@ function Game.start()
     hitText = ""
     score = 0
     spawnedBeats = {}
+
+    stats = {}
+    stats.good = 0
+    stats.perfect = 0
+    stats.miss = 0
+    stats.score = score -- later put just score
+
 
     hitLine = {}
     hitLine.y = 500
@@ -151,6 +153,7 @@ end
                             combo.text = "Perfect combo: x".. combo.perfect
                             end
                             score = score + 10
+                            stats.perfect = stats.perfect + 1
                         elseif math.abs(note.y - hitLine.y) <= 50 then
                             hitText = "GOOD"
                             laneWiggles[i]:pluck(20) -- good    
@@ -160,6 +163,7 @@ end
                             combo.text = "Good combo: x".. combo.good
                             end
                             score = score + 5
+                            stats.good = stats.good + 1
                         end
                         table.remove(notes, j)
                         return
@@ -172,6 +176,7 @@ end
             hitText = "MISS"
             laneWiggles[i]:pluck(10) -- miss :<
             score = score - 3
+            stats.miss = stats.miss + 1
         end
     end
 end
