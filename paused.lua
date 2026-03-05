@@ -1,17 +1,20 @@
 paused = {}
 
 function paused.load()
-
+    
 end
 
 function paused.update(dt)
-    -- if love.keyboard.isDown("escape") then
-    --     gameState.paused = false
-    -- end
+    
 end
 
 function paused.draw()
-    love.graphics.print("Your game is paused", 200, 200)
+    love.graphics.setColor(0,0,0,0.5)
+
+    love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
+    
+
+    love.graphics.setColor(1, 1, 1, 1)
 end
 
 return paused

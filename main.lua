@@ -36,10 +36,11 @@ function love.draw()
         Menu.draw()
     elseif gameState.play then
         Game.draw()
+        if gameState.paused then
+            paused.draw()
+        end
     elseif gameState.gameOver then
         gameOver.draw()
-    elseif gameState.paused then
-    paused.draw()
     end
 
     love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), 750, 560)

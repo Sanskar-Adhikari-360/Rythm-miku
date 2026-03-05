@@ -108,7 +108,6 @@ function Game.update(dt)
     gameState.play = false
     song:pause()
     end
-    
 for i = 1, #laneWiggles do
     laneWiggles[i]:update(dt)
 end
@@ -118,6 +117,13 @@ function Game.keypressed(key)
     local laneKeys = { "d", "f", "j", "k" }
     if key == "escape" then
     gameState.paused = not gameState.paused
+    
+    if gameState.paused then
+        song:pause()
+    else
+        song:play()
+    end
+    
     return
 end
 
