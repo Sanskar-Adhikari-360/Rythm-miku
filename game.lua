@@ -71,7 +71,7 @@ function Game.start()
     player.y = 0
     player.speed = 3
     
-    song:seek(216) 
+    song:seek(0) 
     song:play()
 end
 
@@ -115,7 +115,7 @@ for i = 1, #laneWiggles do
     laneWiggles[i]:update(dt)
 end
 
-    if song:tell() == 0 then
+    if #notes == 0 then
         gameState.gameEnd = true
     end
 end
