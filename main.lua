@@ -49,7 +49,7 @@ function love.draw()
         gameOver.draw()
     end
 
-    love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), 750, 560)
+    love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), love.graphics.getWidth() - 50, love.graphics.getHeight() - 25)
 end
 
 function love.keypressed(key)

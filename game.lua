@@ -52,7 +52,7 @@ function Game.start()
     BPM = 120
     secondsPerBeat = 60 / BPM
     hitText = ""
-    score = 0
+    score = 10000 -- for debugging
     spawnedBeats = {}
 
     stats = {}
@@ -63,7 +63,7 @@ function Game.start()
 
 
     hitLine = {}
-    hitLine.y = 500
+    hitLine.y = screen.h - 125
     hitLine.radius = 50
     lanePositions = {100, 200, 300, 400}
 
@@ -195,7 +195,7 @@ function Game.draw()
 end
 
     if hitText ~= "" then
-        love.graphics.print(hitText, 10, 575)
+        love.graphics.print(hitText, 10, screen.h - 25)
     end       
 
     if score ~= "" then
