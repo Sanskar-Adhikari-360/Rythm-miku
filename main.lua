@@ -2,6 +2,7 @@ Menu = require "menu"
 Game = require "game"
 gameOver = require "gameOver"
 paused = require "paused"
+moonshine = require 'lib/moonshine'
 
 gameState = {
     menu = true,  
@@ -17,6 +18,17 @@ function love.load()
     gameOver.load()
     paused.load()
     gameEnd.load()
+
+    effect = moonshine(moonshine.effects.crt)
+        .chain(moonshine.effects.scanlines)
+
+effect.crt.distortionFactor = {1.01, 1.01}
+effect.crt.scaleFactor = {1,1}
+effect.crt.feather = 0.02
+
+effect.scanlines.width = 2
+effect.scanlines.opacity = 0.25
+    
 end
 
 function love.update(dt)
@@ -36,6 +48,9 @@ function love.update(dt)
 end
 
 function love.draw()
+
+    effect(function()
+
     if gameState.menu then
         Menu.draw()
     elseif gameState.play then
@@ -49,7 +64,8 @@ function love.draw()
         gameOver.draw()
     end
 
-    love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), love.graphics.getWidth() - 50, love.graphics.getHeight() - 25)
+    love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), love.graphics.getWidth() - 80, love.graphics.getHeight() - 25)
+    end)
 end
 
 function love.keypressed(key)
