@@ -3,7 +3,6 @@ local combo = {}
 combo.perfect = 0
 combo.good = 0
 combo.text = ""
--- 625 175
 
 
 screen = {}
@@ -19,8 +18,8 @@ local lanePositions = {}
 local laneWiggles = {}
 
 function Game.spawnNote(x)
-    local speed = (hitLine.y + 20) / secondsPerBeat
-    table.insert(notes, {x = x, y= -20, speed = 200})    
+    local speed = (hitLine.y + 20) / (secondsPerBeat * 5)
+    table.insert(notes, {x = x, y= -20, speed = speed})    
 end
 
 function Game.load()
@@ -59,7 +58,7 @@ function Game.start()
     stats.good = 0
     stats.perfect = 0
     stats.miss = 0
-    stats.score = score -- later put just score
+    stats.score = score
 
 
     hitLine = {}
@@ -73,6 +72,7 @@ function Game.start()
     
     song:seek(0) 
     song:play()
+    love.audio.setVolume(0.0)
 end
 
 function Game.update(dt)

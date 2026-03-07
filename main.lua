@@ -19,12 +19,14 @@ function love.load()
     paused.load()
     gameEnd.load()
 
-    effect = moonshine(moonshine.effects.crt)
-        .chain(moonshine.effects.scanlines)
+    -- effect = moonshine(moonshine.effects.crt)
+    --     .chain(moonshine.effects.scanlines)
 
-effect.crt.distortionFactor = {1.01, 1.01}
-effect.crt.scaleFactor = {1,1}
-effect.crt.feather = 0.02
+        effect = moonshine(moonshine.effects.scanlines)
+
+-- effect.crt.distortionFactor = {1.01, 1.01}
+-- effect.crt.scaleFactor = {1,1}
+-- effect.crt.feather = 0.02
 
 effect.scanlines.width = 2
 effect.scanlines.opacity = 0.25
