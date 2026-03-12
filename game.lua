@@ -17,9 +17,34 @@ local game = {}
 local lanePositions = {}
 local laneWiggles = {}
 
+-- Function for spawning Notes
+
 function Game.spawnNote(x)
     local speed = (hitLine.y + 20) / (secondsPerBeat * 5)
     table.insert(notes, {x = x, y= -20, speed = speed})    
+end
+
+-- Function for Customizing falling Notes
+
+function getNotes(fillMode,noteX, noteY, NoteShape, NoteColor) 
+
+    -- assert(type(noteX) ~="number", "[TYPE ERROR] Invalid Note type")
+    -- assert(type(noteY) ~="number", "[TYPE ERROR] Invalid Note type")
+    -- assert(type(NoteShape) ~="string", "[TYPE ERROR] Invalid Note shape")
+    -- assert(type(NoteColor) ~="string", "[TYPE ERROR] Invalid Note color")
+
+    NOTE_SIZE_L, NOTE_SIZE_W= 20, 20
+    if NoteShape == "rectangle" then
+        return love.graphics.rectangle(fillMode, noteX, noteY, NOTE_SIZE_L, NOTE_SIZE_W)
+    end
+end
+
+-- Function for Customizing Hit Line
+
+function getHitLine(fillMode,hitLineColor)
+    hitLine_W,hitLine_L =love.graphics.getWidth(), 5
+    hitLineX,hitLineY = 0,hitLine.y
+    return love.graphics.rectangle(fillMode,hitLineX, hitLineY,hitLine_W,hitLine_L)
 end
 
 function Game.load()
@@ -37,11 +62,11 @@ function Game.load()
     
     song = love.audio.newSource("music/mikumiku.mp3","stream")
 
-laneWiggles = {}
+    laneWiggles = {}
 
-for i = 1, 4 do
-    laneWiggles[i] = Wiggle.new(100 * i + 10, 0, love.graphics.getHeight(), 40)
-end
+    for i = 1, 4 do
+        laneWiggles[i] = Wiggle.new(100 * i + 10, 0, love.graphics.getHeight(), 40)
+    end
 end
 
 
@@ -51,7 +76,7 @@ function Game.start()
     BPM = 120
     secondsPerBeat = 60 / BPM
     hitText = ""
-    score = 10000 -- for debugging
+    score = 0 -- for debugging
     spawnedBeats = {}
 
     stats = {}
@@ -59,7 +84,6 @@ function Game.start()
     stats.perfect = 0
     stats.miss = 0
     stats.score = score
-
 
     hitLine = {}
     hitLine.y = screen.h - 125
@@ -72,7 +96,7 @@ function Game.start()
     
     song:seek(0) 
     song:play()
-    love.audio.setVolume(0.0)
+    -- love.audio.setVolume(0.0)
 end
 
 function Game.update(dt)
@@ -181,18 +205,49 @@ end
     end
 end
 
+-- """
+-- Args: 
+--     noteX: 
+--     1. description what is this variable about, TYpe of note X
+
+--     noteY:
+
+-- Return:
+--     1. description
+--     2. luwa  dfkdkf
+
+-- example:
+
+-- getNotes(2, 3, "rectangle", "crimson horror")
+-- """
+-- function getNotes(noteX, noteY, NoteShape, NoteColor)
+--     assert(type(noteX) ~="number", "[TYPE ERROR] Invalid Note type")
+--     assert(type(noteY) ~="number", "[TYPE ERROR] Invalid Note type")
+--     assert(type(NoteShape) ~="string", "[TYPE ERROR] Invalid Note shape")
+--     assert(type(NoteShape) ~="string", "[TYPE ERROR] Invalid Note color")
+
+--     NOTE_SIZE_L, NOTE_SIZE_W= 20, 20
+--     if (NoteShape = "rectangle")
+--        return love.graphics.rectangle("fill", noteX, noteY, NOTE_SIZE_L, NOTE_SIZE_W)
+--     elseif (NoteShape = "")
+
+    
+
 function Game.draw()
     player.anim:draw(player.spriteSheet, 750, player.y, nil, nil)
 
     for _, note in pairs(notes) do
         love.graphics.rectangle("fill", note.x, note.y, 20, 20)
+        getNotes(note.x,note.y,"rectangle",nil)
     end
 
     love.graphics.rectangle("fill", 0, hitLine.y, love.graphics.getWidth(), 5)
-
- for i = 1, #laneWiggles do
-    laneWiggles[i]:draw()
-end
+    
+    getHitLine("fill")
+    
+    for i = 1, #laneWiggles do
+        laneWiggles[i]:draw()
+    end
 
     if hitText ~= "" then
         love.graphics.print(hitText, 10, screen.h - 25)

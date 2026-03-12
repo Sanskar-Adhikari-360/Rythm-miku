@@ -19,14 +19,7 @@ function love.load()
     paused.load()
     gameEnd.load()
 
-    -- effect = moonshine(moonshine.effects.crt)
-    --     .chain(moonshine.effects.scanlines)
-
-        effect = moonshine(moonshine.effects.scanlines)
-
--- effect.crt.distortionFactor = {1.01, 1.01}
--- effect.crt.scaleFactor = {1,1}
--- effect.crt.feather = 0.02
+effect = moonshine(moonshine.effects.scanlines)
 
 effect.scanlines.width = 2
 effect.scanlines.opacity = 0.25
@@ -66,11 +59,15 @@ function love.draw()
         gameOver.draw()
     end
 
-    love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), love.graphics.getWidth() - 80, love.graphics.getHeight() - 25)
+    love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), love.graphics.getWidth() - 70, love.graphics.getHeight() - 25)
     end)
 end
 
 function love.keypressed(key)
+    if love.keyboard.isDown("q") then
+    love.event.quit(0)
+    end
+
     if gameState.play then
         Game.keypressed(key)
     end
