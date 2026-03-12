@@ -17,10 +17,10 @@ function gameEnd.draw()
 local centerY = love.graphics.getHeight() / 2
 local gap = 30 
 love.graphics.printf("Song Finished!!", 0, centerY - gap*2, love.graphics.getWidth(), "center")
-love.graphics.printf("Final score: "..stats.score, 0, centerY - gap, love.graphics.getWidth(), "center")
-love.graphics.printf("Perfect Hit: x"..stats.perfect, 0, centerY, love.graphics.getWidth(), "center")
-love.graphics.printf("Good Hit: x"..stats.good, 0, centerY + gap, love.graphics.getWidth(), "center")
-love.graphics.printf("Missed Hit: x"..stats.miss, 0, centerY + gap*2, love.graphics.getWidth(), "center")
+love.graphics.printf("Final score: "..Stats.score, 0, centerY - gap, love.graphics.getWidth(), "center")
+love.graphics.printf("Perfect Hit: x"..Stats.perfect, 0, centerY, love.graphics.getWidth(), "center")
+love.graphics.printf("Good Hit: x"..Stats.good, 0, centerY + gap, love.graphics.getWidth(), "center")
+love.graphics.printf("Missed Hit: x"..Stats.miss, 0, centerY + gap*2, love.graphics.getWidth(), "center")
 
 end
 

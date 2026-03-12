@@ -26,7 +26,7 @@ function gameOver.draw()
     love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
     love.graphics.setColor(0.22, 0.84, 0.78)
     love.graphics.printf("GAME OVER!!", 0, 200,love.graphics.getWidth(), "center")
-    love.graphics.printf("Final score ".. stats.score,0,250, love.graphics.getWidth(),"center")
+    love.graphics.printf("Final score ".. Stats.score,0,250, love.graphics.getWidth(),"center")
     love.graphics.printf("Press R to go back to menu",0,300,love.graphics.getWidth(),"center")
 end
 
