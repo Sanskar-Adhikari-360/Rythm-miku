@@ -6,9 +6,9 @@ songChoice = require "songChoice"
 moonshine = require 'lib/moonshine'
 
 gameState = {
-    menu = false,  
+    menu = true,  
     play = false,
-    songChoice = true,
+    songChoice = false,
     gameOver = false,
     paused = false,
     gameEnd = false
