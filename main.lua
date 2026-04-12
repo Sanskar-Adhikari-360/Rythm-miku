@@ -2,11 +2,13 @@ Menu = require "menu"
 Game = require "game"
 gameOver = require "gameOver"
 paused = require "paused"
+songChoice = require "songChoice"
 moonshine = require 'lib/moonshine'
 
 gameState = {
-    menu = true,  
+    menu = false,  
     play = false,
+    songChoice = true,
     gameOver = false,
     paused = false,
     gameEnd = false
@@ -18,6 +20,7 @@ function love.load()
     gameOver.load()
     paused.load()
     gameEnd.load()
+    songChoice.load()
 
 effect = moonshine(moonshine.effects.scanlines)
 
@@ -39,6 +42,8 @@ function love.update(dt)
         end
     elseif gameState.gameOver then
         gameOver.update(dt)
+    elseif gameState.songChoice then
+            songChoice.update(dt)
     end
 end
 
@@ -57,6 +62,8 @@ function love.draw()
         end
     elseif gameState.gameOver then
         gameOver.draw()
+    elseif gameState.songChoice then
+            songChoice.draw()
     end
 
     love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), love.graphics.getWidth() - 70, love.graphics.getHeight() - 25)

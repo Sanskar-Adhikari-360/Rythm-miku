@@ -158,7 +158,7 @@ end
 function Game.keypressed(key)
     local lane_keys = { "d", "f", "j", "k" }
 
-    if key == "escape" then
+    if key == "escape" or key == "space" then
         if gameState then gameState.paused = not gameState.paused end
 
         if gameState and gameState.paused then

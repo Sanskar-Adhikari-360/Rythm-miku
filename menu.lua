@@ -15,7 +15,8 @@ function Menu.load()
     screen.h = love.graphics.getHeight()
 
     table.insert(buttons, newBtn("Start game", function()
-       gameState.play = true
+    --    gameState.play = true
+       gameState.songChoice = true
        gameState.menu = false
        gameState.gameOver = false
        Game.start()
