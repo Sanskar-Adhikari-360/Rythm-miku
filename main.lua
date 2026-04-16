@@ -79,3 +79,9 @@ function love.keypressed(key)
         Game.keypressed(key)
     end
 end
+
+function love.mousepressed(x, y, button)
+    if gameState.songChoice then
+    songChoice.mousepressed(x, y, button)
+    end
+end
