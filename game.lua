@@ -54,8 +54,14 @@ local function draw_hit_line(fill_mode)
 end
 
 function Game.load()
+    love.graphics.setDefaultFilter("nearest", "nearest")
+    BG = love.graphics.newImage("sprite/BG.png")
+    stage = love.graphics.newImage("sprite/stage.png")
     screen.w = love.graphics.getWidth()
     screen.h = love.graphics.getHeight()
+    
+    mainFont = love.graphics.newFont('fonts/toxigenesis.otf')
+    mainFontLarge = love.graphics.newFont('fonts/toxigenesis.otf',18)
 
     anim8 = require 'lib/anim8'
 
@@ -68,6 +74,7 @@ function Game.load()
     player.anim = player.animations.idle
 
     song = love.audio.newSource("music/mikumiku.mp3", "stream")
+
 end
 
 function Game.create_lane_wiggles()
@@ -98,7 +105,7 @@ function Game.start()
     if song then
         song:seek(0)
         song:play()
-        love.audio.setVolume(0.0)
+        love.audio.setVolume(1)
     end
 
     Game.create_lane_wiggles()
@@ -218,8 +225,11 @@ function Game.keypressed(key)
 end
 
 function Game.draw()
+    love.graphics.setFont(mainFont)
+    love.graphics.draw(BG,0,0,nil,10,10)
+    love.graphics.draw(stage,(love.graphics.getWidth()/2),(love.graphics.getHeight()/2),nil,10,10)
     if player.anim and player.sprite_sheet then
-        player.anim:draw(player.sprite_sheet, 750, player.y, nil, nil)
+        player.anim:draw(player.sprite_sheet, 910, 540, nil,1.5,1.5)
     end
 
     for _, note in ipairs(notes) do
@@ -239,8 +249,12 @@ function Game.draw()
     love.graphics.print("Score: " .. tostring(score), 10, 30)
 
     if combo.text ~= "" then
-        love.graphics.print(combo.text, 625, 175)
+        love.graphics.setFont(mainFontLarge)
+        love.graphics.print(combo.text, 890, 420)
     end
+    love.graphics.setFont(mainFont)
+
+    love.graphics.setColor(1,1,1)
 
     local mouse_x, mouse_y = love.mouse.getPosition()
     love.graphics.print("Mouse X: " .. mouse_x .. "  Y: " .. mouse_y, 10, 10)

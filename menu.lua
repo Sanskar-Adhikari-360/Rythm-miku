@@ -15,6 +15,8 @@ function Menu.load()
     screen.w = love.graphics.getWidth()
     screen.h = love.graphics.getHeight()
 
+    MenuBG = love.graphics.newImage('assets/hatsune-miku-s-room-thumb.jpg')
+
     table.insert(buttons, newBtn("Start game", function()
         switchState("play","down")
        Game.start()
@@ -54,7 +56,7 @@ function Menu.update(dt)
 end
 
 function Menu.draw()
-    trans.draw()
+    love.graphics.draw(MenuBG)
     local margin = 16
     local total_height = (button_height + margin) * #buttons
     local cursor_y = 0
@@ -69,10 +71,9 @@ function Menu.draw()
         local hover = mx > bx and mx < bx + button_width and
                       my > by and my < by + button_height
 
-        if hover then color = {0.8, 0.8, 0.9, 1.0} end
+        if hover then color = {0.2, 1.0, 0.95, 1.0} else color = {0.0, 0.6, 0.6, 1.0} end
 
         love.graphics.setColor(color)
-        -- love.graphics.setColor(0, 0.8, 0.8) miku teal color
         love.graphics.rectangle("fill", bx, by, button_width, button_height)
         love.graphics.setColor(0, 0, 0, 1)
 

@@ -7,6 +7,7 @@ moonshine = require 'lib/moonshine'
 trans = require 'transition'
 
 local mainFont = love.graphics.newFont('fonts/toxigenesis.otf')
+local mainFontLarge = love.graphics.newFont('fonts/toxigenesis.otf',40)
 love.graphics.setFont(mainFont)
 
 gameState = {
