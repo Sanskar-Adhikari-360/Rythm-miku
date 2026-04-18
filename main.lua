@@ -4,6 +4,10 @@ gameOver = require "gameOver"
 paused = require "paused"
 songChoice = require "songChoice"
 moonshine = require 'lib/moonshine'
+trans = require 'transition'
+
+local mainFont = love.graphics.newFont('fonts/toxigenesis.otf')
+love.graphics.setFont(mainFont)
 
 gameState = {
     menu = true,  
@@ -13,6 +17,25 @@ gameState = {
     paused = false,
     gameEnd = false
 }
+
+function switchState(newState,dir)
+if dir == "down" then
+        trans.start(1, "linear","down", function ()
+        for i in pairs(gameState) 
+        do gameState[i] = false 
+        end
+        gameState[newState] = true
+    end)
+end
+if dir == "right" then
+    trans.start(1, "linear","right", function ()
+        for i in pairs(gameState) 
+        do gameState[i] = false 
+        end
+        gameState[newState] = true
+    end)
+end
+end
 
 function love.load()
     Menu.load()
@@ -30,6 +53,7 @@ effect.scanlines.opacity = 0.25
 end
 
 function love.update(dt)
+    trans.update(dt)
     if gameState.menu then
         Menu.update(dt)
     elseif gameState.play then
@@ -45,6 +69,7 @@ function love.update(dt)
     elseif gameState.songChoice then
             songChoice.update(dt)
     end
+    
 end
 
 function love.draw()
@@ -68,6 +93,7 @@ function love.draw()
 
     love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), love.graphics.getWidth() - 70, love.graphics.getHeight() - 25)
     end)
+    trans.draw()
 end
 
 function love.keypressed(key)

@@ -15,9 +15,7 @@ end
 function gameOver.update(dt)
     flux.update(dt)
     if love.keyboard.isDown("r") then
-    gameState.play = false
-    gameState.menu = true
-    gameState.gameOver = false
+        switchState("menu","right")
     end
 end
 

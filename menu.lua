@@ -1,9 +1,10 @@
 local Menu = {}
+trans = require('transition')
 
 local button_height = 64
 local screen = {}
 local buttons = {}
-local font = nil
+local font = love.graphics.newFont('fonts/toxigenesis.otf')
 
 local function newBtn(text, fn)
     return { text = text, fn = fn, now = false, last = false }
@@ -15,10 +16,7 @@ function Menu.load()
     screen.h = love.graphics.getHeight()
 
     table.insert(buttons, newBtn("Start game", function()
-    --    gameState.play = true
-       gameState.songChoice = true
-       gameState.menu = false
-       gameState.gameOver = false
+        switchState("play","down")
        Game.start()
     end))
 
@@ -32,6 +30,7 @@ function Menu.load()
 end
 
 function Menu.update(dt)
+    trans.update(dt)
     local mx, my = love.mouse.getPosition()
     local margin = 16
     local total_height = (button_height + margin) * #buttons
@@ -55,6 +54,7 @@ function Menu.update(dt)
 end
 
 function Menu.draw()
+    trans.draw()
     local margin = 16
     local total_height = (button_height + margin) * #buttons
     local cursor_y = 0
